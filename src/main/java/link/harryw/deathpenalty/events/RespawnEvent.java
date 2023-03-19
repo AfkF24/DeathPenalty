@@ -24,16 +24,17 @@ public class RespawnEvent implements Listener {
         Player p = e.getPlayer();
         FileConfiguration config = plugin.getConfig();
 
-        if(p.hasPermission("deathpenalty.bypass")) return;
+        if (!p.isDead()) return;
+        if (p.hasPermission("deathpenalty.bypass")) return;
 
         double currentBalance = econ.getBalance(p);
         double withdrawAmount = 0.0f;
 
-        if(currentBalance >= config.getInt("minimumBalance")) {
-            if(config.getString("lossType").equalsIgnoreCase("percentage")) {
+        if (currentBalance >= config.getInt("minimumBalance")) {
+            if (config.getString("lossType").equalsIgnoreCase("percentage")) {
                 int percentageAmount = config.getInt("percentageLost");
                 withdrawAmount = currentBalance * (percentageAmount / 100.0f);
-            } else if(config.getString("lossType").equalsIgnoreCase("fixed")) {
+            } else if (config.getString("lossType").equalsIgnoreCase("fixed")) {
                 withdrawAmount = config.getInt("amountLost");
             }
 
